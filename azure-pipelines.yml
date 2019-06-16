@@ -1,0 +1,68 @@
+name: $(Date:yyyyMMdd)$(Rev:.r)
+variables:
+  RestoreBuildProjects: any cpu
+  BuildConfiguration: release
+trigger:
+- master
+pr:
+- master
+jobs:
+  - job: Votica
+    pool:
+      name: Hosted Ubuntu 1604
+      demands: java
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: Restore
+      inputs:
+        command: restore
+        arguments: Votica.sln
+    - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      displayName: 'Prepare analysis on SonarCloud'
+      inputs:
+        SonarCloud: 'https://sonarcloud.io/dashboard?id=ruben69695_votica'
+        organization: 'ruben69695-github'
+        projectKey: 'ruben69695_votica'
+        projectName: votica
+        projectVersion: '1.0.0'
+        extraProperties: |
+          sonar.cs.vstest.reportsPaths=/home/vsts/work/_temp/TestResults.trx
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: build
+        arguments: 'Votica.sln --configuration $(BuildConfiguration)'
+    - task: DotNetCoreCLI@2
+      displayName: Test
+      inputs:
+        command: test
+        arguments: Votica.sln --logger "trx;LogFileName=TestResults.trx"
+    - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      displayName: 'Run Code Analysis'
+    - task: DotNetCoreCLI@2
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      displayName: Publish
+      inputs:
+        command: publish
+        publishWebProjects: True
+        arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+    - task: PublishBuildArtifacts@1
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+    - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      displayName: 'Publish Quality Gate Result'
+    # - task: AzureRmWebAppDeployment@4
+    #   condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+    #   inputs:
+    #     ConnectionType: 'AzureRM'
+    #     azureSubscription: 'votica - 3 - Service Endpoint'
+    #     appType: 'webApp'
+    #     WebAppName: 'votica'
+    #     packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'
+
+
