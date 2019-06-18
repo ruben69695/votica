@@ -13,4 +13,8 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Votica.Domain\Votica.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
