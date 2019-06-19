@@ -9,8 +9,11 @@ namespace Votica.EntityFrameworkCore.Configurations
         public void Configure(EntityTypeBuilder<QuestionType> builder)
         {
             builder.ToTable("questionTypes")
-                .HasKey(qt => qt.Id)
-                .HasName("id");
+                .HasKey(qt => qt.Id);
+
+            builder.Property(qt => qt.Id)
+                .HasColumnName("id")
+                .ValueGeneratedOnAdd();
             
             builder.Property(qt => qt.Name)
                 .HasColumnName("name")

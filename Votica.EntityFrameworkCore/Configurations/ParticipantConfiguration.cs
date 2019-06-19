@@ -9,8 +9,7 @@ namespace Votica.EntityFrameworkCore.Configurations
         public void Configure(EntityTypeBuilder<Participant> builder)
         {
             builder.ToTable("participants")
-                .HasKey(p => p.Email)
-                .HasName("email");
+                .HasKey(p => p.Email);
 
             builder.Property(p => p.Email)
                 .HasColumnName("email")

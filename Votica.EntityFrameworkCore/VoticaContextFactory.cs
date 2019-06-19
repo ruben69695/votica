@@ -13,7 +13,7 @@ namespace Votica.EntityFrameworkCore
         public VoticaDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<VoticaDbContext>();
-            optionsBuilder.UseSqlite("Data Source=votica.db");
+            optionsBuilder.UseNpgsql("Host=localhost;Database=votica_db;Username=votica;Password=votica123");
 
             return new VoticaDbContext(optionsBuilder.Options);
         }
