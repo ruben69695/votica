@@ -32,12 +32,11 @@ dotnet run --project Votica.App/Votica.App.csproj
 # Technologies
 - C#
 - Git
-- SQLite
-- SQL Server
 - Razor
 - ASP.NET Core
+- PostgreSQL
 - Azure DevOps
-- Microsoft Azure
+- SonarCloud
 - Visual Studio Code
 - Microsoft Entity Framework Core
 
