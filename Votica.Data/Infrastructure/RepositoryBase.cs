@@ -1,17 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Votica.Database.Generics;
 
 namespace Votica.Data.Infrastructure
 {
-
-    public class VoticaContext : DbContext
-    {
-        // Fake class
-    }
-
     /// <summary>
     /// RepositoryBase class with every basic method that can be called by a service
     /// </summary>
@@ -21,13 +15,13 @@ namespace Votica.Data.Infrastructure
 
         #region Members
 
-        protected VoticaContext _ctx;
+        protected IDatabaseContext _ctx;
 
         #endregion
 
         #region Ctor
 
-        public RepositoryBase(VoticaContext ctx)
+        public RepositoryBase(IDatabaseContext ctx)
         {
             _ctx = ctx;
         }
@@ -38,22 +32,22 @@ namespace Votica.Data.Infrastructure
 
         public async Task<T> FindByAsync(Expression<Func<T, bool>> match)
         {
-            return await _ctx.Set<T>().SingleOrDefaultAsync(match);
+            return await _ctx.FindByAsync(match);
         }
 
         public IQueryable<T> FindWhere(Expression<Func<T, bool>> predicate)
         {
-            return _ctx.Set<T>().Where(predicate);
+            return _ctx.FindWhere(predicate);
         }
 
         public IQueryable<T> GetAll()
         {
-            return _ctx.Set<T>();
+            return _ctx.GetAll<T>();
         }
 
         public async Task<T> GetByIdAsync(object key)
         {
-            return await _ctx.Set<T>().FindAsync(key);
+            return await _ctx.GetByIdAsync<T>(key);
         }
 
         #endregion
@@ -62,29 +56,17 @@ namespace Votica.Data.Infrastructure
 
         public async Task<T> AddAsync(T entity)
         {
-            await _ctx.Set<T>().AddAsync(entity);
-            await _ctx.SaveChangesAsync();
-            return entity;
+            return await _ctx.InsertAsync(entity);
         }
 
         public async Task<int> RemoveAsync(T entity, object key)
         {
-            _ctx.Set<T>().Remove(entity);
-            return await _ctx.SaveChangesAsync();
+            return await _ctx.RemoveAsync(entity, key);
         }
 
         public async Task<T> UpdateAsync(T entity, object key)
         {
-            if (entity == null)
-                return null;
-
-            T entityExist = await _ctx.Set<T>().FindAsync(key);
-            if (entityExist != null)
-            {
-                _ctx.Entry(entityExist).CurrentValues.SetValues(entity);
-                await _ctx.SaveChangesAsync();
-            }
-            return entityExist;
+            return await _ctx.UpdateAsync(entity, key);
         }
 
         #endregion

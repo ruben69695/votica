@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Votica.Database.Generics;
 using Votica.Domain;
 
 namespace Votica.Data.Infrastructure
@@ -17,7 +18,7 @@ namespace Votica.Data.Infrastructure
 
         #region Members
 
-        private readonly VoticaContext _ctx;
+        private readonly IDatabaseContext _ctx;
 
         #endregion
 
@@ -27,7 +28,7 @@ namespace Votica.Data.Infrastructure
         /// Class constructor
         /// </summary>
         /// <param name="ctx">DbContext object</param>
-        public UnitOfWork(VoticaContext ctx)
+        public UnitOfWork(IDatabaseContext ctx)
         {
             _ctx = ctx;
             SetRepositories();
@@ -42,7 +43,7 @@ namespace Votica.Data.Infrastructure
         /// </summary>
         public void Commit()
         {
-            _ctx.SaveChanges();
+            _ctx.Commit();
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace Votica.Data.Infrastructure
         /// <returns></returns>
         public async Task<int> CommitAsync()
         {
-            return await _ctx.SaveChangesAsync();
+            return await _ctx.CommitAsync();
         }
 
         /// <summary>
