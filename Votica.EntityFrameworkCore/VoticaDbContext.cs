@@ -14,11 +14,8 @@ namespace Votica.EntityFrameworkCore
     /// </summary>
     public class VoticaDbContext : DbContext, IDatabaseContext
     {
-        public VoticaDbContext(DbContextOptions<VoticaDbContext> options)
-            : base(options)
-        {
-            
-        }
+        public VoticaDbContext(DbContextOptions<VoticaDbContext> options) : base(options)
+        {}
 
         public void Commit()
         {
@@ -76,6 +73,10 @@ namespace Votica.EntityFrameworkCore
             }
             return entityExist;
         }
+
+        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //     => optionsBuilder.UseNpgsql("Host=localhost;Database=votica_db;Username=rubenarrebola;Password=ruben123");
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Votica.EntityFrameworkCore;
 
 namespace Votica.EntityFrameworkCore.Migrations
@@ -14,12 +15,15 @@ namespace Votica.EntityFrameworkCore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Votica.Domain.Option", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -29,8 +33,7 @@ namespace Votica.EntityFrameworkCore.Migrations
 
                     b.Property<int?>("QuestionId");
 
-                    b.HasKey("Id")
-                        .HasName("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
@@ -44,8 +47,7 @@ namespace Votica.EntityFrameworkCore.Migrations
                         .HasColumnName("email")
                         .HasColumnType("varchar(60)");
 
-                    b.HasKey("Email")
-                        .HasName("email");
+                    b.HasKey("Email");
 
                     b.ToTable("participants");
                 });
@@ -66,11 +68,12 @@ namespace Votica.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Votica.Domain.Poll", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
 
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnName("creationDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamptz");
 
                     b.Property<string>("Description")
                         .HasColumnName("description")
@@ -79,7 +82,7 @@ namespace Votica.EntityFrameworkCore.Migrations
 
                     b.Property<DateTimeOffset>("ExpirationDate")
                         .HasColumnName("expirationDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamptz");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -87,8 +90,7 @@ namespace Votica.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(150)")
                         .HasMaxLength(150);
 
-                    b.HasKey("Id")
-                        .HasName("id");
+                    b.HasKey("Id");
 
                     b.ToTable("polls");
                 });
@@ -96,7 +98,8 @@ namespace Votica.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Votica.Domain.Question", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -108,8 +111,7 @@ namespace Votica.EntityFrameworkCore.Migrations
 
                     b.Property<int>("TypeId");
 
-                    b.HasKey("Id")
-                        .HasName("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("PollId");
 
@@ -121,7 +123,8 @@ namespace Votica.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Votica.Domain.QuestionType", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -129,8 +132,7 @@ namespace Votica.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(35)")
                         .HasMaxLength(35);
 
-                    b.HasKey("Id")
-                        .HasName("id");
+                    b.HasKey("Id");
 
                     b.ToTable("questionTypes");
                 });

@@ -9,8 +9,11 @@ namespace Votica.EntityFrameworkCore.Configurations
         public void Configure(EntityTypeBuilder<Poll> builder)
         {
             builder.ToTable("polls")
-                .HasKey(p => p.Id)
-                .HasName("id");
+                .HasKey(p => p.Id);
+
+            builder.Property(p => p.Id)
+                .HasColumnName("id")
+                .ValueGeneratedOnAdd();
             
             builder.Property(p => p.Name)
                 .HasColumnName("name")
@@ -25,12 +28,12 @@ namespace Votica.EntityFrameworkCore.Configurations
             
             builder.Property(p => p.CreationDate)
                 .HasColumnName("creationDate")
-                .HasColumnType("datetime")
+                .HasColumnType("timestamptz")
                 .IsRequired();
             
             builder.Property(p => p.ExpirationDate)
                 .HasColumnName("expirationDate")
-                .HasColumnType("datetime")
+                .HasColumnType("timestamptz")
                 .IsRequired();
 
             builder.HasMany(poll => poll.Questions)

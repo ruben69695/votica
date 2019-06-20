@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Votica.EntityFrameworkCore.Migrations
 {
@@ -15,62 +16,62 @@ namespace Votica.EntityFrameworkCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("email", x => x.email);
+                    table.PrimaryKey("PK_participants", x => x.email);
                 });
 
             migrationBuilder.CreateTable(
                 name: "polls",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     name = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
                     description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
-                    creationDate = table.Column<DateTimeOffset>(type: "datetime", nullable: false),
-                    expirationDate = table.Column<DateTimeOffset>(type: "datetime", nullable: false)
+                    creationDate = table.Column<DateTimeOffset>(type: "timestamptz", nullable: false),
+                    expirationDate = table.Column<DateTimeOffset>(type: "timestamptz", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("id", x => x.Id);
+                    table.PrimaryKey("PK_polls", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "questionTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     name = table.Column<string>(type: "varchar(35)", maxLength: 35, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("id", x => x.Id);
+                    table.PrimaryKey("PK_questionTypes", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "questions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     name = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
                     TypeId = table.Column<int>(nullable: false),
                     PollId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("id", x => x.Id);
+                    table.PrimaryKey("PK_questions", x => x.id);
                     table.ForeignKey(
                         name: "FK_questions_polls_PollId",
                         column: x => x.PollId,
                         principalTable: "polls",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_questions_questionTypes_TypeId",
                         column: x => x.TypeId,
                         principalTable: "questionTypes",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -78,19 +79,19 @@ namespace Votica.EntityFrameworkCore.Migrations
                 name: "options",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     name = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false),
                     QuestionId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("id", x => x.Id);
+                    table.PrimaryKey("PK_options", x => x.id);
                     table.ForeignKey(
                         name: "FK_options_questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "questions",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -108,7 +109,7 @@ namespace Votica.EntityFrameworkCore.Migrations
                         name: "FK_optionsPerParticipant_options_OptionId",
                         column: x => x.OptionId,
                         principalTable: "options",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_optionsPerParticipant_participants_ParticipantEmail",
