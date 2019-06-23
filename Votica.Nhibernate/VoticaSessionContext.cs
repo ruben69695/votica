@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Votica.Data.Interfaces;
+using Votica.Database.Generics;
 
 namespace Votica.Nhibernate
 {

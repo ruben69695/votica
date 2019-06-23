@@ -27,7 +27,7 @@ jobs:
         projectName: votica
         projectVersion: '1.0.0'
         extraProperties: |
-          sonar.cs.vstest.reportsPaths=/home/vsts/work/_temp/TestResults.trx
+          sonar.cs.vstest.reportsPaths=/home/vsts/work/_temp/Votica.Data.IntegrationTests/TestResults/TestResults.trx,/home/vsts/work/_temp/Votica.Services.UnitTests/TestResults/TestResults.trx 
     - task: DotNetCoreCLI@2
       displayName: Build
       inputs:
