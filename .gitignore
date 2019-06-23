@@ -329,6 +329,9 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
+# Coverage
+coverage.*
+
 
 # Mac Environment
 .DS_Store

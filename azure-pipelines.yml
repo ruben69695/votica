@@ -27,7 +27,8 @@ jobs:
         projectName: votica
         projectVersion: '1.0.0'
         extraProperties: |
-          sonar.cs.vstest.reportsPaths=/home/vsts/work/_temp/Votica.Data.IntegrationTests/TestResults/TestResults.trx,/home/vsts/work/_temp/Votica.Services.UnitTests/TestResults/TestResults.trx 
+          sonar.cs.vstest.reportsPaths=/home/vsts/work/_temp/Votica.Data.IntegrationTests/TestResults/TestResults.trx,/home/vsts/work/_temp/Votica.Services.UnitTests/TestResults/TestResults.trx
+          sonar.cs.opencover.reportsPaths=/home/vsts/work/_temp/Votica.Data.IntegrationTest/TestResults/coverage.opencover.xml,/home/vsts/work/_temp/Votica.Services.UnitTests/TestResults/coverage.opencover.xml
     - task: DotNetCoreCLI@2
       displayName: Build
       inputs:
@@ -37,7 +38,7 @@ jobs:
       displayName: Test
       inputs:
         command: test
-        arguments: Votica.sln --logger "trx;LogFileName=TestResults.trx"
+        arguments: Votica.sln --logger "trx;LogFileName=TestResults.trx" /p:CollectCoverage=true /p:CoverletOutputFormat=\"json,opencover\" /p:CoverletOutput=\"./TestResults/\"
     - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
       condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
       displayName: 'Run Code Analysis'
