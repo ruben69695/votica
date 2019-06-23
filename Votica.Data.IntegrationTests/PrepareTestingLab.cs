@@ -14,7 +14,8 @@ namespace Votica.Data.IntegrationTests
         public void GlobalTestsSetUp()
         {
             var optionsBuilder = new DbContextOptionsBuilder<VoticaDbContext>();
-            optionsBuilder.UseNpgsql("Host=localhost;Database=votica_test_db;Username=rubenarrebola;Password=ruben123");
+            optionsBuilder.UseSqlite("DataSource=votica_test.db");
+            // optionsBuilder.UseNpgsql("Host=localhost;Database=votica_test_db;Username=rubenarrebola;Password=ruben123");
 
             // Create the context
             TestContext = new VoticaDbContext(optionsBuilder.Options);
