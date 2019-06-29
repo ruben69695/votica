@@ -10,6 +10,6 @@ namespace Votica.Domain
         public virtual string Name { get; set; }
         public virtual QuestionType Type { get; set; }
         public virtual Poll Poll { get; set; }
-        public virtual IList<Option> Options { get; set; }
+        public virtual IList<Answer> Answers { get; set; }
     }
 }

@@ -21,8 +21,8 @@ namespace Votica.EntityFrameworkCore.Configurations
                 .HasMaxLength(150)
                 .IsRequired();
 
-            builder.HasMany(q => q.Options)
-                .WithOne(option => option.Question);
+            builder.HasMany(q => q.Answers)
+                .WithOne(answer => answer.Question);
             
         }
     }

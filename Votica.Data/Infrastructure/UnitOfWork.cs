@@ -82,17 +82,17 @@ namespace Votica.Data.Infrastructure
             if (_repoDictionary == null)
                 _repoDictionary = new Dictionary<Type, object>()
                 {
-                    { typeof(Option), new RepositoryBase<Option>(_ctx) },
-                    { typeof(Participant), new RepositoryBase<Participant>(_ctx) },
-                    { typeof(ParticipantOption), new RepositoryBase<ParticipantOption>(_ctx) },
+                    { typeof(Answer), new RepositoryBase<Answer>(_ctx) },
+                    { typeof(User), new RepositoryBase<User>(_ctx) },
+                    { typeof(UserAnswer), new RepositoryBase<UserAnswer>(_ctx) },
                     { typeof(Poll), new RepositoryBase<Poll>(_ctx) },
                     { typeof(Question), new RepositoryBase<Question>(_ctx) },
                     { typeof(QuestionType), new RepositoryBase<QuestionType>(_ctx) }
                 };
 
-            if (!_repoDictionary.ContainsKey(typeof(Option))) _repoDictionary.Add(typeof(Option), new RepositoryBase<Option>(_ctx));
-            if (!_repoDictionary.ContainsKey(typeof(Participant))) _repoDictionary.Add(typeof(Participant), new RepositoryBase<Participant>(_ctx));
-            if (!_repoDictionary.ContainsKey(typeof(ParticipantOption))) _repoDictionary.Add(typeof(ParticipantOption), new RepositoryBase<ParticipantOption>(_ctx));
+            if (!_repoDictionary.ContainsKey(typeof(Answer))) _repoDictionary.Add(typeof(Answer), new RepositoryBase<Answer>(_ctx));
+            if (!_repoDictionary.ContainsKey(typeof(User))) _repoDictionary.Add(typeof(User), new RepositoryBase<User>(_ctx));
+            if (!_repoDictionary.ContainsKey(typeof(UserAnswer))) _repoDictionary.Add(typeof(UserAnswer), new RepositoryBase<UserAnswer>(_ctx));
             if (!_repoDictionary.ContainsKey(typeof(Poll))) _repoDictionary.Add(typeof(Poll), new RepositoryBase<Poll>(_ctx));
             if (!_repoDictionary.ContainsKey(typeof(Question))) _repoDictionary.Add(typeof(Question), new RepositoryBase<Question>(_ctx));
             if (!_repoDictionary.ContainsKey(typeof(QuestionType))) _repoDictionary.Add(typeof(QuestionType), new RepositoryBase<QuestionType>(_ctx));

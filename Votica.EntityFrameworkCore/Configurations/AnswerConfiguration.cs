@@ -4,11 +4,11 @@ using Votica.Domain;
 
 namespace Votica.EntityFrameworkCore.Configurations
 {
-    public class OptionConfiguration : IEntityTypeConfiguration<Option>
+    public class AnswerConfiguration : IEntityTypeConfiguration<Answer>
     {
-        public void Configure(EntityTypeBuilder<Option> builder)
+        public void Configure(EntityTypeBuilder<Answer> builder)
         {
-            builder.ToTable("options")
+            builder.ToTable("answers")
                 .HasKey(o => o.Id);
 
             builder.Property(o => o.Id)
