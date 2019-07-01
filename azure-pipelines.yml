@@ -28,7 +28,7 @@ jobs:
         projectVersion: '1.0.0'
         extraProperties: |
           sonar.cs.vstest.reportsPaths=/home/vsts/work/1/s/Votica.Data.IntegrationTests/TestResults/TestResults.trx,/home/vsts/work/1/s/Votica.Services.UnitTests/TestResults/TestResults.trx
-          sonar.cs.opencover.reportsPaths=/home/vsts/work/1/s/Votica.Data.IntegrationTest/TestResults/coverage.opencover.xml,/home/vsts/work/1/s/Votica.Services.UnitTests/TestResults/coverage.opencover.xml
+          sonar.cs.opencover.reportsPaths=/home/vsts/work/1/s/Votica.Data.IntegrationTests/TestResults/coverage.opencover.xml,/home/vsts/work/1/s/Votica.Services.UnitTests/TestResults/coverage.opencover.xml
     - task: DotNetCoreCLI@2
       displayName: Build
       inputs:
