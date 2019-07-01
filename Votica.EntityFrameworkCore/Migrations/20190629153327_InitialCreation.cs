@@ -4,21 +4,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Votica.EntityFrameworkCore.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "participants",
-                columns: table => new
-                {
-                    email = table.Column<string>(type: "varchar(60)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_participants", x => x.email);
-                });
-
             migrationBuilder.CreateTable(
                 name: "polls",
                 columns: table => new
@@ -49,6 +38,20 @@ namespace Votica.EntityFrameworkCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    email = table.Column<string>(type: "varchar(60)", nullable: false),
+                    name = table.Column<string>(type: "varchar(45)", nullable: false),
+                    lastname = table.Column<string>(type: "varchar(90)", nullable: false),
+                    salt = table.Column<string>(type: "varchar(16)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.email);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "questions",
                 columns: table => new
                 {
@@ -76,7 +79,7 @@ namespace Votica.EntityFrameworkCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "options",
+                name: "answers",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
@@ -86,9 +89,9 @@ namespace Votica.EntityFrameworkCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_options", x => x.id);
+                    table.PrimaryKey("PK_answers", x => x.id);
                     table.ForeignKey(
-                        name: "FK_options_questions_QuestionId",
+                        name: "FK_answers_questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "questions",
                         principalColumn: "id",
@@ -96,38 +99,38 @@ namespace Votica.EntityFrameworkCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "optionsPerParticipant",
+                name: "answersPerUser",
                 columns: table => new
                 {
-                    ParticipantEmail = table.Column<string>(nullable: false),
-                    OptionId = table.Column<int>(nullable: false)
+                    UserEmail = table.Column<string>(nullable: false),
+                    AnswerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_optionsPerParticipant", x => new { x.ParticipantEmail, x.OptionId });
+                    table.PrimaryKey("PK_answersPerUser", x => new { x.UserEmail, x.AnswerId });
                     table.ForeignKey(
-                        name: "FK_optionsPerParticipant_options_OptionId",
-                        column: x => x.OptionId,
-                        principalTable: "options",
+                        name: "FK_answersPerUser_answers_AnswerId",
+                        column: x => x.AnswerId,
+                        principalTable: "answers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_optionsPerParticipant_participants_ParticipantEmail",
-                        column: x => x.ParticipantEmail,
-                        principalTable: "participants",
+                        name: "FK_answersPerUser_users_UserEmail",
+                        column: x => x.UserEmail,
+                        principalTable: "users",
                         principalColumn: "email",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_options_QuestionId",
-                table: "options",
+                name: "IX_answers_QuestionId",
+                table: "answers",
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_optionsPerParticipant_OptionId",
-                table: "optionsPerParticipant",
-                column: "OptionId");
+                name: "IX_answersPerUser_AnswerId",
+                table: "answersPerUser",
+                column: "AnswerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_questions_PollId",
@@ -143,13 +146,13 @@ namespace Votica.EntityFrameworkCore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "optionsPerParticipant");
+                name: "answersPerUser");
 
             migrationBuilder.DropTable(
-                name: "options");
+                name: "answers");
 
             migrationBuilder.DropTable(
-                name: "participants");
+                name: "users");
 
             migrationBuilder.DropTable(
                 name: "questions");

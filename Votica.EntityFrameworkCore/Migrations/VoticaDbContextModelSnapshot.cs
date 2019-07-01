@@ -19,7 +19,7 @@ namespace Votica.EntityFrameworkCore.Migrations
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Votica.Domain.Option", b =>
+            modelBuilder.Entity("Votica.Domain.Answer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,32 +37,7 @@ namespace Votica.EntityFrameworkCore.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("options");
-                });
-
-            modelBuilder.Entity("Votica.Domain.Participant", b =>
-                {
-                    b.Property<string>("Email")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("email")
-                        .HasColumnType("varchar(60)");
-
-                    b.HasKey("Email");
-
-                    b.ToTable("participants");
-                });
-
-            modelBuilder.Entity("Votica.Domain.ParticipantOption", b =>
-                {
-                    b.Property<string>("ParticipantEmail");
-
-                    b.Property<int>("OptionId");
-
-                    b.HasKey("ParticipantEmail", "OptionId");
-
-                    b.HasIndex("OptionId");
-
-                    b.ToTable("optionsPerParticipant");
+                    b.ToTable("answers");
                 });
 
             modelBuilder.Entity("Votica.Domain.Poll", b =>
@@ -137,24 +112,56 @@ namespace Votica.EntityFrameworkCore.Migrations
                     b.ToTable("questionTypes");
                 });
 
-            modelBuilder.Entity("Votica.Domain.Option", b =>
+            modelBuilder.Entity("Votica.Domain.User", b =>
                 {
-                    b.HasOne("Votica.Domain.Question", "Question")
-                        .WithMany("Options")
-                        .HasForeignKey("QuestionId");
+                    b.Property<string>("Email")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("email")
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnName("lastname")
+                        .HasColumnType("varchar(90)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasColumnType("varchar(45)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnName("lastname")
+                        .HasColumnType("varchar(90)");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnName("salt")
+                        .HasColumnType("varchar(16)");
+
+                    b.HasKey("Email");
+
+                    b.ToTable("users");
                 });
 
-            modelBuilder.Entity("Votica.Domain.ParticipantOption", b =>
+            modelBuilder.Entity("Votica.Domain.UserAnswer", b =>
                 {
-                    b.HasOne("Votica.Domain.Option", "Option")
-                        .WithMany("Participants")
-                        .HasForeignKey("OptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.Property<string>("UserEmail");
 
-                    b.HasOne("Votica.Domain.Participant", "Participant")
-                        .WithMany("Options")
-                        .HasForeignKey("ParticipantEmail")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.Property<int>("AnswerId");
+
+                    b.HasKey("UserEmail", "AnswerId");
+
+                    b.HasIndex("AnswerId");
+
+                    b.ToTable("answersPerUser");
+                });
+
+            modelBuilder.Entity("Votica.Domain.Answer", b =>
+                {
+                    b.HasOne("Votica.Domain.Question", "Question")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId");
                 });
 
             modelBuilder.Entity("Votica.Domain.Question", b =>
@@ -167,6 +174,19 @@ namespace Votica.EntityFrameworkCore.Migrations
                     b.HasOne("Votica.Domain.QuestionType", "Type")
                         .WithMany("Questions")
                         .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Votica.Domain.UserAnswer", b =>
+                {
+                    b.HasOne("Votica.Domain.Answer", "Answer")
+                        .WithMany("UsersAnswers")
+                        .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Votica.Domain.User", "User")
+                        .WithMany("QuestionAnswers")
+                        .HasForeignKey("UserEmail")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

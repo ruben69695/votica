@@ -86,9 +86,9 @@ namespace Votica.EntityFrameworkCore
                 .ApplyConfiguration<Poll>(new PollConfiguration())
                 .ApplyConfiguration<QuestionType>(new QuestionTypeConfiguration())
                 .ApplyConfiguration<Question>(new QuestionConfiguration())
-                .ApplyConfiguration<Option>(new OptionConfiguration())
-                .ApplyConfiguration<ParticipantOption>(new ParticipantOptionConfiguration())
-                .ApplyConfiguration<Participant>(new ParticipantConfiguration());
+                .ApplyConfiguration<Answer>(new AnswerConfiguration())
+                .ApplyConfiguration<UserAnswer>(new UserAnswerConfiguration())
+                .ApplyConfiguration<User>(new UserConfiguration());
                 
         }
 
