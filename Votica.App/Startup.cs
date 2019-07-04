@@ -57,6 +57,15 @@ namespace Votica.App
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "auth",
+                    template: "{area:exists}/{controller=Auth}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "auth",
+                    template: "{area:exists}/{controller=Management}/{action=Index}/{id?}");
+
             });
         }
     }

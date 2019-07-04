@@ -54,3 +54,36 @@ body {
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
 }
+
+/* Titles styles
+----------------------------------------------- */
+h2 {
+  margin-bottom: 35px;
+}
+
+/* Poll Styles
+----------------------------------------------- */
+.poll-card {
+  margin-bottom: 50px;
+}
+
+.poll-card-button {
+  margin: 0px;
+  margin-bottom: 15px;
+}
+
+.poll-card-date {
+  margin: 7px;
+}
+
+.progress {
+  height: 0.5rem;
+}
+
+.progress-bar {
+  height: 0.5rem;
+}
+
+.card-stat {
+  margin-bottom: 1.5rem;
+}
